@@ -3,25 +3,25 @@
 
 using namespace std;
 
-#define N 5
-//TODO: 1)Добавить вывод среднего арифметического всех положительных чисел, всех чисел
-// 2)Найти среднее от двух чисел (+ и -)=среднему всех чисел
+#define N 5						// количество всех чисел
+
 int main()
 {
 	setlocale(LC_CTYPE, "Russian");
 
-	int a[N];
-	int i;
+	int sumPositive = 0;		// сумма положительных чисел
+	int sumNegative = 0;		// сумма отрицательных чисел
+	int sumAllNumbers = 0;		// сумма всех чисел
 
+	int numPositive = 0;        // количество положительных чисел
+	int numNegative = 0;		// количество отрицательных чисел
+	int a[N];					// массив чисел
+	int i;						// текущий индекс
+
+	// Ввод чисел с клавиатуры
 	for (i = 0; i < N; i++)
 		cin >> a[i];
-	double averagePositive = 0;
-	double averageNegative = 0;
-	double averageAll = 0;
-	int sumNegative = 0;
-	int sumPositive = 0;
-	int numNegative = 0;
-	int numPositive = 0;
+
 	for (i = 0; i < N; i++)
 	{
 		if (a[i] < 0)
@@ -34,45 +34,42 @@ int main()
 			numPositive++;
 			sumPositive += a[i];
 		}
+		sumAllNumbers += a[i];
 	}
-	if (numNegative == 0)
+
+	if (N == 0)
 	{
-		numNegative = 0;
-		cout << "Oтрицательных элементов нет";
+		cout << "В массиве нет элементов\n";
+		return 404;
 	}
-	if (numPositive == 0)
+	else
 	{
-		numPositive = 0;
-		cout << "Положительных элементов нет";
+		cout << "Среднее арифметическое всех чисел в массиве: " << (double)sumAllNumbers / N << "\n";
+
+		if (numNegative == 0)
+			cout << "Oтрицательных элементов нет\n";
+		else
+			if (numPositive > 0)
+				cout << "Среднее арифметическое положительных чисел в массиве: " << (double)sumPositive / numPositive << "\n";
+		if (numPositive == 0)
+			cout << "Положительных элементов нет\n";
+		else 
+			if (numNegative > 0)
+				cout << "Среднее арифметическое отрицательных чисел в массиве: " << (double)sumNegative / numNegative << "\n";
 	}
-	if (numNegative > 0)
+
+	// Дополнительное задание: если в массиве есть и положительные, и отрицательные числа,
+	// то сложить ср. ариф. положительный со ср. арфиметическим отрицательных и поделить на два,
+	// а результат сравнить со средним арифметическим всех чисел.
+	if ( numPositive != 0 && numNegative != 0)
 	{
-		averageNegative = (double)sumNegative / numNegative;
-		cout << "Среднее арифметическое отрицательных чисел в массиве: " << averageNegative;
-	}
-	cout << endl;
-	if (numPositive > 0)
-	{
-		averagePositive = (double)sumPositive / numPositive;
-		cout << "Среднее арифметическое положительных чисел в массиве: " << averagePositive;
-	}
-	cout << endl;
-	if (averageNegative == 0)
-	{
-		averageAll = averagePositive;
-		cout << "Среднее арифметическое всех чисел (без Отрицательных): " << averagePositive;
-		cout << endl;
-	}
-	if (averagePositive == 0)
-	{
-		averageAll = averageNegative;
-		cout << "Среднее арифметическое всех чисел (без Положительных): " << averageNegative;
-		cout << endl;
-	}
-	if (averageNegative < 0 && averagePositive > 0)
-	{
-		averageAll = (averageNegative + averagePositive) / 2;
-		cout << "Среднее арифметическое всех чисел: " << averageAll;
-		cout << endl;
+		double averageNegative = (double)sumNegative / numNegative;
+		double averagePositive = (double)sumPositive / numPositive;
+		double averageAll = (averageNegative + averagePositive) / 2;
+		if (averageAll == (double)sumAllNumbers / N)
+			cout << "РАВНЫ\n";
+		else
+			cout << "НЕ РАВНЫ\n";
+		// -3 2 -1 1 1 проверь, разберись и объясни почему такой результат
 	}
 }
